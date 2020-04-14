@@ -3,45 +3,45 @@
 # 	def __init__(self, data):
 # 		super(Impact, self).__init__()
 # 		self.data = data
+import collections 
 severe_impact = {}
 o_impact = {}
-data = {}
 
-def  getdata(data = data):
-	finaldata = {}
+def  getdata(data ):
+	data = {}
 	
 	if data():
 		for key , value in  data.items():
 			if isinstance(value , collections.Mapping):
 				for seckeys , secvalues in value.items():
-					finaldata[seckeys] = (secvalues)
+					data[seckeys] = (secvalues)
 			else:
-				finaldata[key] = value
+				data[key] = value
 	else:
 		pass
 
-	return finaldata
+	return data
 
 def impact(getdata):
 	if getdata():
-		cases_reported = int(finaldata["reportedCases"])
-		currentlyInfected = int(casesreported *10)
+		currentlyInfected = int(data["reportedCases"] *10)
 		o_impact[impact.__name__] = currentlyInfected
 	else:
    		pass
 	return currentlyInfected
+
+
 def severeImpact(getdata):
 	if getdata():
-		int(finaldata["reportedCases"])
-		currentlyInfected = casesreported * 50 
+		currentlyInfected = int(data["reportedCases"] * 50 )
 		severe_impact[severeImpact.__name__] = currentlyInfected
 	return int(currentlyInfected)
 
 ##check the type of period and convert it
-def convert_to_days(getdata):
-	if getdata():
+def convert_to_days(getdata , data):
+	if getdata(data):
 
-		period=data["periodType"], time=finaldata["timeToElapse"]
+		period=data["periodType"], time=data["timeToElapse"]
 	
 		if period == "days":
 			timeToElapse = data["timetoElapse"]
@@ -57,17 +57,16 @@ def convert_to_days(getdata):
 	return timeToElapse
 
 def infectionsByRequestedTime(
-	convert_to_days, impact ,severeImpact
+	convert_to_days, impact ,severeImpact , getdata , data
 	):
-	if convert_to_days():
-		time = int(timetoElapse)
+	if convert_to_days(getdata , data):
 
-		infection_gaps  = int(time / 3)
-
-		totalrequested = int(severeImpact()* 2 ** infection_gaps)
-		severe_impact[infectionsByRequestedTime.__name__] = totalrequested
-		low_totalrequested = impact() * 2 ** infection_gaps
-		o_impact[infectionsByRequestedTime.__name__] = low_totalrequested
+		if getdata():
+			infection_gaps  = int(data['timetoElapse'] / 3)
+			totalrequested = int(severeImpact()* 2 ** infection_gaps)
+			severe_impact[infectionsByRequestedTime.__name__] = totalrequested
+			low_totalrequested = impact() * 2 ** infection_gaps
+			o_impact[infectionsByRequestedTime.__name__] = low_totalrequested
 	else: 
 		pass
 
@@ -75,8 +74,8 @@ def infectionsByRequestedTime(
 
 ##assignment 2
 
-def severeCasesByRequestedTime(infectionsByRequestedTime):
-	if infectionsByRequestedTime():
+def severeCasesByRequestedTime(infectionsByRequestedTime , convert_to_days , impact , severeImpact , getdata, data):
+	if infectionsByRequestedTime(convert_to_days , impact , severeImpact , data , getdata):
 		severeCases = int(0.15 * totalrequested)
 		lowimpact = int(0.15* low_totalrequested)
 		severe_impact[severeCasesByRequestedTime.__name__] = severeCases 
@@ -85,8 +84,8 @@ def severeCasesByRequestedTime(infectionsByRequestedTime):
 		pass
 	return lowimpact , severeCases
 
-def hospitalBedsByRequestedTime(severeCasesByRequestedTime , getdata ):
-	if severeCasesByRequestedTime() and getdata():
+def hospitalBedsByRequestedTime(severeCasesByRequestedTime , getdata , data ):
+	if severeCasesByRequestedTime(infectionsByRequestedTime , convert_to_days , impact , severeImpact , getdata ,data) and getdata(data):
 		beds_available = int(data["totalHospitalBeds"]) 
 		low_hospt_req = int((beds_available * 0.35) - lowimpact)
 		severe_hospt_req = int((beds_available * 0.35) - severeCases)
@@ -98,8 +97,8 @@ def hospitalBedsByRequestedTime(severeCasesByRequestedTime , getdata ):
 	return low_hospt_req , severe_hospt_req
 
 ##challenge 3 
-def casesForICUByRequestedTime (infectionsByRequestedTime):
-	if infectionsByRequestedTime():
+def casesForICUByRequestedTime (infectionsByRequestedTime, getdata , data):
+	if infectionsByRequestedTime(convert_to_days , impact , severeImpact , data , getdata):
 		low_ICU =  0.05 * low_totalrequested
 		high_ICU = 0.05 * totalrequested
 		o_impact[casesForICUByRequestedTime.__name__] = low_ICU
@@ -108,9 +107,9 @@ def casesForICUByRequestedTime (infectionsByRequestedTime):
 		pass
 	return high_ICU , low_ICU
 
-def casesForVentilatorsByRequestedTime(infectionsByRequestedTime):
+def casesForVentilatorsByRequestedTime(infectionsByRequestedTime , getdata , data):
 	#estimated number of severe positive cases that will require ventilators
-	if infectionsByRequestedTime():
+	if infectionsByRequestedTime(convert_to_days , impact , severeImpact , data , getdata):
 		high_ventilator =  int(0.02 * totalrequested)
 		low_ventilator = int(0.02 * low_totalrequested)
 		o_impact[casesForVentilatorsByRequestedTime.__name__] = low_ventilator
@@ -122,15 +121,15 @@ def casesForVentilatorsByRequestedTime(infectionsByRequestedTime):
 	return high_ventilator , low_ventilator
 
 
-def dollarsInFlight(infectionsByRequestedTime , avgDailyIncomeinUSD , avgDailyIncomePopulation,getdata):
-	if getdata():
+def dollarsInFlight(infectionsByRequestedTime  , data ,avgDailyIncomeinUSD , avgDailyIncomePopulation,getdata):
+	if getdata(data):
 		time = data["timeToElapse"]
 		totalcases = impact(cases)
 		totaldollars_high = [] 
 		totaldollars_low = []
 		for day in range(0 , time+1):
 
-			if infectionsByRequestedTime():
+			if infectionsByRequestedTime(convert_to_days , impact , severeImpact , data , getdata):
 				low_dollarsinfected = int( low_totalrequested* 0.65 * 1.5) / time
 				high_dollarsinfected = int(totalrequested * 0.65 * 1.5) / time
 				totaldollars_high.append(high_dollarsinfected)
