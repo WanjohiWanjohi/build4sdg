@@ -59,16 +59,12 @@ def convert_to_days(getdata , data):
 def infectionsByRequestedTime(
 	convert_to_days, impact ,severeImpact , getdata , data
 	):
-	if convert_to_days(getdata , data):
-
-		if getdata(data):
-			infection_gaps  = int(data['timetoElapse'] / 3)
-			totalrequested = int(severeImpact(data)* 2 ** infection_gaps)
-			severe_impact[infectionsByRequestedTime.__name__] = totalrequested
-			low_totalrequested = impact(data) * 2 ** infection_gaps
-			o_impact[infectionsByRequestedTime.__name__] = low_totalrequested
-		else: 
-			pass
+	if convert_to_days(getdata , data) and getdata(data):
+		infection_gaps  = int(data['timetoElapse'] / 3)
+		totalrequested = int(severeImpact(data)* 2 ** infection_gaps)
+		severe_impact[infectionsByRequestedTime.__name__] = totalrequested
+		low_totalrequested = impact(data) * 2 ** infection_gaps
+		o_impact[infectionsByRequestedTime.__name__] = low_totalrequested
 
 	return totalrequested , low_totalrequested
 
