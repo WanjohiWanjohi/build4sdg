@@ -22,8 +22,8 @@ def  getdata(data ):
 
 	return data
 
-def impact(getdata):
-	if getdata():
+def impact(getdata , data):
+	if getdata(data):
 		currentlyInfected = int(data["reportedCases"] *10)
 		o_impact[impact.__name__] = currentlyInfected
 	else:
@@ -31,8 +31,8 @@ def impact(getdata):
 	return currentlyInfected
 
 
-def severeImpact(getdata):
-	if getdata():
+def severeImpact(getdata , data):
+	if getdata(data):
 		currentlyInfected = int(data["reportedCases"] * 50 )
 		severe_impact[severeImpact.__name__] = currentlyInfected
 	return int(currentlyInfected)
@@ -61,11 +61,11 @@ def infectionsByRequestedTime(
 	):
 	if convert_to_days(getdata , data):
 
-		if getdata():
+		if getdata(data):
 			infection_gaps  = int(data['timetoElapse'] / 3)
-			totalrequested = int(severeImpact()* 2 ** infection_gaps)
+			totalrequested = int(severeImpact(data)* 2 ** infection_gaps)
 			severe_impact[infectionsByRequestedTime.__name__] = totalrequested
-			low_totalrequested = impact() * 2 ** infection_gaps
+			low_totalrequested = impact(data) * 2 ** infection_gaps
 			o_impact[infectionsByRequestedTime.__name__] = low_totalrequested
 	else: 
 		pass
